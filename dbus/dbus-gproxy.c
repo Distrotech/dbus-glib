@@ -1428,13 +1428,14 @@ dbus_g_proxy_class_init (DBusGProxyClass *klass)
                   G_TYPE_NONE, 2, DBUS_TYPE_MESSAGE, G_TYPE_POINTER);
 }
 
-static void
+static gboolean
 cancel_pending_call (gpointer key, gpointer val, gpointer data)
 {
-  DBusGProxyCall *call = key;
-  DBusGProxy *proxy = data;
+  DBusPendingCall *pending = val;
 
-  dbus_g_proxy_cancel_call (proxy, call);
+  dbus_pending_call_cancel (pending);
+
+  return TRUE;
 }
 
 static void
@@ -1449,7 +1450,7 @@ dbus_g_proxy_dispose (GObject *object)
     }
 
   /* Cancel outgoing pending calls */
-  g_hash_table_foreach (priv->pending_calls, cancel_pending_call, proxy);
+  g_hash_table_foreach_remove (priv->pending_calls, cancel_pending_call, NULL);
   g_hash_table_destroy (priv->pending_calls);
   priv->pending_calls = NULL;
 
