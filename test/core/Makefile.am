@@ -50,7 +50,9 @@ BUILT_SOURCES = test-service-glib-glue.h test-service-glib-bindings.h my-object-
 
 test_service_glib_SOURCES=				\
 	my-object-marshal.c                             \
-	test-service-glib.c 
+	my-object.c \
+	my-object.h \
+	test-service-glib.c
 
 test-service-glib-glue.h: test-service-glib.xml $(top_builddir)/dbus/dbus-binding-tool
 	$(top_builddir)/dbus/dbus-binding-tool --prefix=my_object --mode=glib-server --output=test-service-glib-glue.h $(srcdir)/test-service-glib.xml
