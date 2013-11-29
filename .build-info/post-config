@@ -1,6 +1,5 @@
 #!/bin/bash
 
 if [ ! -x /usr/bin/dbus-binding-tool ] && [ "${1}" == "${NARCH}" ];then
-  CWD=$(pwd)
-  (export PATH=${PATH}:${CWD}/dbus;make all install)
+  make -C dbus dbus-binding-tool && cp dbus/dbus-binding-tool /usr/bin/
 fi;
